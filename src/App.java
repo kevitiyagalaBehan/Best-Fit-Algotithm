@@ -6,11 +6,13 @@ class MemoryBlock {
     int size;
     int id;
     boolean isAllocated;
+    int remainingSize; // Added to store the remaining size after allocation
 
     public MemoryBlock(int id, int size) {
         this.id = id;
         this.size = size;
         this.isAllocated = false;
+        this.remainingSize = size; // Initially, the remaining size is equal to the full size
     }
 }
 
@@ -81,8 +83,8 @@ public class App {
         if (bestFitIndex != -1) {
             MemoryBlock allocatedBlock = memoryBlocks.get(bestFitIndex);
             allocatedBlock.isAllocated = true;
-            System.out
-                    .println("Memory allocated in Block ID: " + allocatedBlock.id + " of size: " + allocatedBlock.size);
+            allocatedBlock.remainingSize = allocatedBlock.size - requestSize; // Update remaining size
+            System.out.println("Memory allocated in Block ID: " + allocatedBlock.id + " of size: " + requestSize);
         } else {
             System.out.println("No suitable memory block found. Allocation failed.");
         }
@@ -91,9 +93,9 @@ public class App {
     // View the status of memory blocks
     private static void viewMemoryBlocks(ArrayList<MemoryBlock> memoryBlocks) {
         System.out.println("Memory Blocks Status:");
-        System.out.println("ID\tSize\tAllocated");
+        System.out.println("ID\tSize\tAllocated\tRemaining Size");
         for (MemoryBlock block : memoryBlocks) {
-            System.out.println(block.id + "\t" + block.size + "\t" + (block.isAllocated ? "Yes" : "No"));
+            System.out.println(block.id + "\t" + block.size + "\t" + (block.isAllocated ? "Yes" : "No") + "\t\t" + block.remainingSize);
         }
     }
 }
