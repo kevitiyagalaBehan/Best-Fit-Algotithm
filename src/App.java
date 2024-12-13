@@ -67,24 +67,24 @@ public class App {
         int requestSize = scanner.nextInt();
 
         int bestFitIndex = -1;
-        int smallestFitSize = Integer.MAX_VALUE;
+        int smallestRemainingSize = Integer.MAX_VALUE;
 
-        // Finding the best-fit block
+        // Finding the best-fit block, considering the remaining size
         for (int i = 0; i < memoryBlocks.size(); i++) {
             MemoryBlock block = memoryBlocks.get(i);
 
-            if (!block.isAllocated && block.size >= requestSize && block.size < smallestFitSize) {
+            if (block.remainingSize >= requestSize && block.remainingSize < smallestRemainingSize) {
                 bestFitIndex = i;
-                smallestFitSize = block.size;
+                smallestRemainingSize = block.remainingSize;
             }
         }
 
         // Allocate memory if a suitable block is found
         if (bestFitIndex != -1) {
             MemoryBlock allocatedBlock = memoryBlocks.get(bestFitIndex);
-            allocatedBlock.isAllocated = true;
-            allocatedBlock.remainingSize = allocatedBlock.size - requestSize; // Update remaining size
-            System.out.println("Memory allocated in Block ID: " + allocatedBlock.id + " of size: " + requestSize);
+            allocatedBlock.remainingSize -= requestSize; // Update remaining size
+            allocatedBlock.isAllocated = true; // Mark block as allocated if not already
+            System.out.println("Memory allocated in Block ID: " + allocatedBlock.id + " of Block Size: " + allocatedBlock.size);
         } else {
             System.out.println("No suitable memory block found. Allocation failed.");
         }
@@ -93,9 +93,9 @@ public class App {
     // View the status of memory blocks
     private static void viewMemoryBlocks(ArrayList<MemoryBlock> memoryBlocks) {
         System.out.println("Memory Blocks Status:");
-        System.out.println("ID\tSize\tAllocated\tRemaining Size");
+        System.out.println("ID\tTotal Size\tAllocated\tRemaining Size");
         for (MemoryBlock block : memoryBlocks) {
-            System.out.println(block.id + "\t" + block.size + "\t" + (block.isAllocated ? "Yes" : "No") + "\t\t" + block.remainingSize);
+            System.out.println(block.id + "\t" + block.size + "\t\t" + (block.isAllocated ? "Yes" : "No") + "\t\t" + block.remainingSize);
         }
     }
 }
