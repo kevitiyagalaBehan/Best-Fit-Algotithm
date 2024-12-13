@@ -6,7 +6,7 @@ class MemoryBlock {
     int size;
     int id;
     boolean isAllocated;
-    int remainingSize; // Added to store the remaining size after allocation
+    int remainingSize;
 
     public MemoryBlock(int id, int size) {
         this.id = id;
@@ -23,7 +23,6 @@ public class App {
         // List to hold memory blocks
         ArrayList<MemoryBlock> memoryBlocks = new ArrayList<>();
 
-        // Step 1: Read memory block sizes
         System.out.print("Enter the number of memory blocks: ");
         int numBlocks = scanner.nextInt();
 
@@ -31,10 +30,10 @@ public class App {
 
         for (int i = 0; i < numBlocks; i++) {
             int blockSize = scanner.nextInt();
-            memoryBlocks.add(new MemoryBlock(i + 1, blockSize)); // Correctly create and add MemoryBlock objects
+            memoryBlocks.add(new MemoryBlock(i + 1, blockSize)); // Create and add MemoryBlock objects
         }
 
-        // Step 2: Start allocation requests
+        // Start allocation requests
         while (true) {
             System.out.println("\nChoose an option:");
             System.out.println("1. Allocate memory");
@@ -61,7 +60,7 @@ public class App {
         }
     }
 
-    // Allocate memory using the Best Fit strategy
+    // Allocate memory using the Best Fit algoithm
     private static void allocateMemory(ArrayList<MemoryBlock> memoryBlocks, Scanner scanner) {
         System.out.print("Enter the size of the memory request: ");
         int requestSize = scanner.nextInt();
